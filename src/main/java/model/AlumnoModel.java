@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import entity.Alumno;
 import util.MySqlDBConexion;
@@ -44,4 +45,48 @@ public class AlumnoModel {
 		}
 		return salida;
 	}
+	
+	public boolean existeDNI(String dni) {
+		boolean existe = false;
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+			con = MySqlDBConexion.getConexion();
+			String sql = "select * from alumno where dni = ?";
+			pstm = con.prepareStatement(sql);
+			pstm.setString(1, dni);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				existe = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstm != null)
+					pstm.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return existe;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

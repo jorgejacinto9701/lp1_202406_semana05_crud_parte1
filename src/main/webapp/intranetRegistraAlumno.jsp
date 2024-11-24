@@ -126,7 +126,13 @@ $(document)
                                 regexp: {
                                     regexp: /^[0-9]{8}$/,
                                     message: 'El DNI debe ser numérico de 8 dígitos'
+                                },
+                                remote: {
+                                    message: 'El DNI ya existe',
+                                    url: 'validaDNIAlumnoServlet',
+                                    delay: 2000
                                 }
+                                
                             }
 						},
 						correo:{
