@@ -7,6 +7,24 @@ import java.util.Date;
 
 public class FechaUtil {
 
+	public static boolean esMayorEdad(String fechaIngresada) {
+		boolean esValida = false;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date fechaHoy = new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaHoy);
+			int annoActual = cal.get(Calendar.YEAR);
+			cal.set(Calendar.YEAR, annoActual-18);
+			Date fechaMinima = cal.getTime();
+			Date dateFechaIngresada = sdf.parse(fechaIngresada);
+			esValida = dateFechaIngresada.before(fechaMinima);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return esValida;
+	}
+	
 	public static String getFechaFormateadaYYYYMMdd(java.sql.Date fecha) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //Brinda formato a la fecha
 		return sdf.format(fecha);
