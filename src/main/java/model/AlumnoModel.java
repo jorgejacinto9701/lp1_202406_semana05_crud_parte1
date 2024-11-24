@@ -77,6 +77,69 @@ public class AlumnoModel {
 		return existe;
 	}
 	
+	public boolean existeEmail(String email) {
+		boolean existe = false;
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+			con = MySqlDBConexion.getConexion();
+			String sql = "select * from alumno where correo = ?";
+			pstm = con.prepareStatement(sql);
+			pstm.setString(1, email);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				existe = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstm != null)
+					pstm.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return existe;
+		
+	}
+	public boolean existeTelefono(String telefono) {
+		boolean existe = false;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = MySqlDBConexion.getConexion();
+            String sql = "select * from alumno where telefono = ?";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, telefono);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                existe = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+                if (con != null)
+                    con.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return existe;
+    }
+		
+	
 }
 
 

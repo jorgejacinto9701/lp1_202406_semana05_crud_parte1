@@ -114,6 +114,11 @@ $(document)
                                 regexp: {
                                     regexp: /^[9][0-9]{8}$/,
                                     message: 'El teléfono debe ser numérico que empiece con 9'
+                                },
+                                remote: {
+                                    message: 'El teléfono ya existe',
+                                    url: 'validaTelefonolAlumnoServlet',
+                                    delay: 1000
                                 }
                              }
 						},
@@ -130,7 +135,7 @@ $(document)
                                 remote: {
                                     message: 'El DNI ya existe',
                                     url: 'validaDNIAlumnoServlet',
-                                    delay: 2000
+                                    delay: 1000
                                 }
                                 
                             }
@@ -143,6 +148,11 @@ $(document)
                                 },
                                 emailAddress: {
                                     message: 'El correo no es válido'
+                                },
+                                remote: {
+                                    message: 'El correo ya existe',
+                                    url: 'validaEmailAlumnoServlet',
+                                    delay: 1000
                                 }
                             }
 						},
@@ -151,6 +161,11 @@ $(document)
                             validators: {
                                 notEmpty: {
                                     message: 'La fecha de nacimiento es requerida'
+                                },
+                                remote: {
+                                    message: 'El alumno debe ser mayor de edad',
+                                    url: 'validaFechaNacimientoAlumnoServlet',
+                                    delay: 1000
                                 }
                             }
 						},
