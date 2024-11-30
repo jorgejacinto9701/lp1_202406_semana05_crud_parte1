@@ -21,5 +21,6 @@ public class Alumno {
 	private Timestamp fechaActualizacion;
 	private int estado;
 	private Pais pais;
-	
+	//Atributo para la fecha con un formato "yyyy-MM-dd
+	private String fechaNacimientoFormateada;
 }

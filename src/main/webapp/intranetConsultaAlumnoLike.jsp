@@ -32,17 +32,17 @@
 		</div>
 		<div class="row" style="margin-top: 3%">
 			<div class="col-md-12">
-				<table id="id_tabla" class="table table-striped table-bordered">
-					<thead>
+				<table id="id_table" class="table table-bordered table-hover table-condensed" >
+					<thead style='background-color:#337ab7; color:white'>
 						<tr>
-							<th>Id</th>
+							<th>Código</th>
 							<th>Nombres</th>
 							<th>Apellidos</th>
-							<th>Telefono</th>
+							<th>Teléfono</th>
 							<th>DNI</th>
 							<th>Correo</th>
 							<th>Fecha Nacimiento</th>
-							<th>Pais</th>
+							<th>País</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -52,51 +52,57 @@
 
 		</div>
 </div>
-
 <script type="text/javascript">
-	$("#id_filtrar").click(function() {
+	
 
-		var filtro = $("#id_nombre").val();
-		$.getJSON("consultaAlumnoLike", {"filtro": filtro}, function(data) {
-			console.log(data);
-			agregarGrilla(data);
-        });
-		
-	});
-	
-	function agregarGrilla(data){
-		 $('#id_tabla').DataTable().clear();
-		 $('#id_tabla').DataTable().destroy();
-		 $('#id_tabla').DataTable({
-				data: data,
-				language: IDIOMA,
-				searching: true,
-				ordering: true,
-				processing: true,
-				pageLength: 10,
-				lengthChange: false,
-				info:true,
-				scrollY: 305,
-		        scroller: {
-		            loadingIndicator: true
-		        },
-				columns:[
-					{data: "idAlumno",className:'text-center'},
-					{data: "nombres",className:'text-center'},
-					{data: "apellidos",className:'text-center'},
-					{data: "telefono",className:'text-center'},
-					{data: "dni",className:'text-center'},
-					{data: "correo",className:'text-center'},
-					{data: "fechaNacimiento",className:'text-center'},
-					{data: "pais.nombre",className:'text-center'}
-					]                                     
-            });
-					
-		
-		
-	}
+$("#id_filtrar").click(function(){
+   	var filtro = $("#id_nombre").val();
+   	
+    $.ajax({
+        type: "GET",
+        url: "consultaAlumnoLikeServlet",
+        data: {"filtro":filtro},
+        success: function(data){
+        	console.log(data);
+        	agregarGrilla(data);
+        }
+    });
+});
+
+
+function agregarGrilla(data){
+	 $('#id_table').DataTable().clear();
+	 $('#id_table').DataTable().destroy();
+	 $('#id_table').DataTable({
+			data: data,
+			language: IDIOMA,
+			searching: true,
+			ordering: true,
+			processing: true,
+			pageLength: 10,
+			lengthChange: false,
+			info:true,
+			scrollY: 305,
+	        scroller: {
+	            loadingIndicator: true
+	        },
+			columns:[
+				{data: "idAlumno",className:'text-center'},
+				{data: "nombres",className:'text-center'},
+				{data: "apellidos",className:'text-center'},
+				{data: "telefono",className:'text-center'},
+				{data: "dni",className:'text-center'},
+				{data: "correo",className:'text-center'},
+				{data: "fechaNacimientoFormateada", className:'text-center'},
+				{data: "pais.nombre",className:'text-center'}
+				]                                     
+       });
+}
+
+
 </script>
-	
+
+
 </body>
 </html>
 
