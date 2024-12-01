@@ -52,55 +52,8 @@
 
 		</div>
 </div>
-<script type="text/javascript">
-	
-
-$("#id_filtrar").click(function(){
-   	var filtro = $("#id_nombre").val();
-   	
-    $.ajax({
-        type: "GET",
-        url: "consultaAlumnoLikeServlet",
-        data: {"filtro":filtro},
-        success: function(data){
-        	console.log(data);
-        	agregarGrilla(data);
-        }
-    });
-});
 
 
-function agregarGrilla(data){
-	 $('#id_table').DataTable().clear();
-	 $('#id_table').DataTable().destroy();
-	 $('#id_table').DataTable({
-			data: data,
-			language: IDIOMA,
-			searching: true,
-			ordering: true,
-			processing: true,
-			pageLength: 10,
-			lengthChange: false,
-			info:true,
-			scrollY: 305,
-	        scroller: {
-	            loadingIndicator: true
-	        },
-			columns:[
-				{data: "idAlumno",className:'text-center'},
-				{data: "nombres",className:'text-center'},
-				{data: "apellidos",className:'text-center'},
-				{data: "telefono",className:'text-center'},
-				{data: "dni",className:'text-center'},
-				{data: "correo",className:'text-center'},
-				{data: "fechaNacimientoFormateada", className:'text-center'},
-				{data: "pais.nombre",className:'text-center'}
-				]                                     
-       });
-}
-
-
-</script>
 
 
 </body>
