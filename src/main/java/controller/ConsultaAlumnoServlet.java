@@ -27,6 +27,8 @@ public class ConsultaAlumnoServlet extends HttpServlet{
 		String dni = req.getParameter("dni");
 		String desde = req.getParameter("desde");
 		String hasta = req.getParameter("hasta");
+		String pais = req.getParameter("pais");
+		
 		if (desde.isEmpty()) {
 			desde = "1900-01-01";
 		}
@@ -38,7 +40,7 @@ public class ConsultaAlumnoServlet extends HttpServlet{
 		
 		//2 Invocar al modelo
 		AlumnoModel model = new AlumnoModel();
-		List<Alumno> lista = model.listaAlumnoComplejo("%" + nom + "%", tel, dni, dateDesde, dateHasta);
+		List<Alumno> lista = model.listaAlumnoComplejo("%" + nom + "%", tel, dni, dateDesde, dateHasta, pais);
 		
 		// 3 Enviar la lista a la vista
 		Gson gson = new Gson();

@@ -20,13 +20,19 @@
 	<h4>Consulta Alumno</h4>
 	
 	<div class="row"  style="margin-top: 5%">
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<label class="control-label" for="id_nombre">Nombres</label>
 				<input class="form-control" type="text" id="id_nombre" name="nombre">	
 			</div>
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<label class="control-label" for="id_telefono">Teléfono</label>
 				<input class="form-control" type="text" id="id_telefono" name="telefono">	
+			</div>
+			<div class="form-group col-md-4">
+				<label class="control-label" for="id_pais"> País </label> 
+				<select	class="form-control" id="id_pais" name="pais" >
+					<option value="-1">[Todos]</option>
+				</select>
 			</div>
 	</div>
 	<div class="row" style="margin-top: 2%">
@@ -77,14 +83,21 @@
 		var vdni = $("#id_dni").val();
 		var vfdesde = $("#id_fecha_desde").val();
 		var vfhasta = $("#id_fecha_hasta").val();
+		var vpais = $("#id_pais").val();
 		
 		console.log("vfnombre >>> " + vfnombre);
 		console.log("vtelefono >>> " + vtelefono);
 		console.log("vdni >>> " + vdni);
 		console.log("vfdesde >>> " + vfdesde);
 		console.log("vfhasta >>> " + vfhasta);
+		console.log("vpais >>> " + vpais);
 		
-		$.getJSON("consultaAlumno", {"nombre":vfnombre,"telefono":vtelefono,"dni":vdni,"desde":vfdesde,"hasta":vfhasta}, function(data) {
+		$.getJSON("consultaAlumno", {"nombre":vfnombre,
+									 "telefono":vtelefono,
+									 "dni":vdni,
+									 "desde":vfdesde,
+									 "pais":vpais,
+									 "hasta":vfhasta}, function(data) {
 			agregarGrilla(data);
 		});
 	});
@@ -120,6 +133,12 @@
 				]                                     
 		    });
 	}
+	
+	$.getJSON("cargaComboPais", function(data) {
+	    $.each(data, function(index, value) {
+	        $("#id_pais").append("<option value='" + value.idPais + "'>" + value.nombre + "</option>");
+	    });
+	});
 	
 	</script>
 	

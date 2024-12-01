@@ -199,7 +199,7 @@ public class AlumnoModel {
 	}
 	
 
-	public List<Alumno> listaAlumnoComplejo(String nombre, String telefono,String dni,Date fdesde,Date fhasta) {
+	public List<Alumno> listaAlumnoComplejo(String nombre, String telefono,String dni,Date fdesde,Date fhasta, String pais) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -210,8 +210,8 @@ public class AlumnoModel {
 						+ "where (a.nombres like ? or a.apellidos like ? ) and "
 						+ "( ? = '' or telefono = ?) and "
 						+ "( ? = '' or dni = ?) and "
-						+ "(fechaNacimiento >= ? and fechaNacimiento <= ?)";
-			
+						+ "(fechaNacimiento >= ? and fechaNacimiento <= ?) and "
+						+ "( ? = '-1' or p.idPais = ?)";
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, nombre);
 			pstm.setString(2, nombre);
@@ -221,6 +221,8 @@ public class AlumnoModel {
 			pstm.setString(6, dni);
 			pstm.setDate(7, fdesde);
 			pstm.setDate(8, fhasta);
+			pstm.setString(9, pais);
+			pstm.setString(10, pais);
 
 			System.out.println("SQL => " + pstm);
 			rs = pstm.executeQuery();
