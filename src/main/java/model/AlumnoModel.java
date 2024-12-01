@@ -178,6 +178,7 @@ public class AlumnoModel {
 				p.setIdPais(rs.getInt(11));
 				p.setNombre(rs.getString(12)); 
 				
+				
 				a.setPais(p);
 				data.add(a);
 			}
