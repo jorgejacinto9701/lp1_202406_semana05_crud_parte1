@@ -140,6 +140,9 @@
 	    });
 	});
 	
+	$("#id_btn_filtrar").click(function(){});
+	
+	
 	</script>
 	
 </body>
