@@ -24,7 +24,7 @@
 				<label class="control-label">Nombre o Apellido</label>
 			</div>
 			<div class="col-md-3">
-					<input class="form-control" type="text" id="id_nombre" name="nombres" placeholder="Ingrese el nombre">
+					<input class="form-control" type="text" id="id_filtro" name="nombres" placeholder="Ingrese el nombre">
 			</div>
 			<div class="col-md-2">
 					<button type="button" class="btn btn-primary" id="id_filtrar">Filtrar</button>
@@ -227,7 +227,7 @@ function agregarGrilla(lista){
 					return row.estado == 1 ? "Activo" : "Inactivo";  
 				},className:'text-center'},
 				{data: function(row){
-					return '<button type="button" class="btn btn-info btn-sm">Editar</button>';  
+					return '<button type="button" class="btn btn-info btn-sm" onClick="busca(\'' + row.nombres + '\',\'' + row.apellidos+ '\',\'' + row.dni+ '\',\'' + row.fechaNacimientoFormateada+ '\',\'' + row.correo + '\',\'' + row.telefono + '\',\'' + row.estado  + '\',\'' + row.pais.idPais + '\');">Editar</button>';  
 				},className:'text-center'},
 				{data: function(row){
 					return '<button type="button" class="btn btn-warning btn-sm" onClick="eliminacionLogica(\'' + row.idAlumno + '\',\'' + row.estado  +'\');">E.Lógica</button>';  
@@ -246,7 +246,7 @@ function agregarGrilla(lista){
 
 	//Consulta alumno
 	$("#id_filtrar").click(function() {
-		var filtro = $("#id_nombre").val();
+		var filtro = $("#id_filtro").val();
 		console.log("filtro >> " + filtro);
 		$.getJSON("crudAlumno", {"metodo":"paramLista", "filtro": filtro}, function(data){
 			agregarGrilla(data);
@@ -290,6 +290,167 @@ function agregarGrilla(lista){
 	          }
 	    });
 	}
+	
+	
+	$.getJSON("cargaComboPais", function(data) {
+	    $.each(data, function(index, value) {
+	        $("#id_pais").append("<option value='" + value.idPais + "'>" + value.nombre + "</option>");
+	        $("#id_pais_actualiza").append("<option value='" + value.idPais + "'>" + value.nombre + "</option>");
+	    });
+	});
+	
+	function busca(nombres, apellidos, dni, fechaNacimiento, correo, telefono, estado, pais) {
+		$("#id_nombre_actualiza").val(nombres);
+		$("#id_apellido_actualiza").val(apellidos);
+		$("#id_dni_actualiza").val(dni);
+		$("#id_fecha_actualiza").val(fechaNacimiento);
+		$("#id_correo_actualiza").val(correo);
+		$("#id_telefono_actualiza").val(telefono);
+		$("#id_estado_actualiza").val(estado);
+		$("#id_pais_actualiza").val(pais);
+		$("#id_div_modal_actualiza").modal('show');
+	}
+	
+	
+	$(document).ready(function(){
+		$('#id_form_registra').bootstrapValidator(
+	                {
+	                    message : 'This value is not valid',
+	                    feedbackIcons : {
+	                        valid : 'glyphicon glyphicon-ok',
+	                        invalid : 'glyphicon glyphicon-remove',
+	                        validating : 'glyphicon glyphicon-refresh'
+	                    },
+	                    fields: {
+							nombres:{
+								selector: '#id_nombre',
+								validators: {
+	                                notEmpty: {
+	                                    message: 'El nombre es requerido'
+	                                },
+	                                stringLength: {
+	                                    min: 3,
+	                                    max: 100,
+	                                    message: 'El nombre debe tener entre 3 y 100 caracteres'
+	                                }
+	                            }
+							},
+							apellidos:{
+								selector: '#id_apellido',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'El apellido es requerido'
+	                                },
+	                                stringLength: {
+	                                    min: 3,
+	                                    max: 100,
+	                                    message: 'El apellido debe tener entre 3 y 100 caracteres'
+	                                }
+	                            }
+							},
+							telefono:{
+								selector: '#id_telefono',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'El teléfono es requerido'
+	                                },
+	                                regexp: {
+	                                    regexp: /^[9][0-9]{8}$/,
+	                                    message: 'El teléfono debe ser numérico que empiece con 9'
+	                                },
+	                                remote: {
+	                                    message: 'El teléfono ya existe',
+	                                    url: 'validaTelefonolAlumnoServlet',
+	                                    delay: 1000
+	                                }
+	                             }
+							},
+							dni:{
+								selector: '#id_dni',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'El DNI es requerido'
+	                                },
+	                                regexp: {
+	                                    regexp: /^[0-9]{8}$/,
+	                                    message: 'El DNI debe ser numérico de 8 dígitos'
+	                                },
+	                                remote: {
+	                                    message: 'El DNI ya existe',
+	                                    url: 'validaDNIAlumnoServlet',
+	                                    delay: 1000
+	                                }
+	                                
+	                            }
+							},
+							correo:{
+								selector: '#id_correo',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'El correo es requerido'
+	                                },
+	                                emailAddress: {
+	                                    message: 'El correo no es válido'
+	                                },
+	                                remote: {
+	                                    message: 'El correo ya existe',
+	                                    url: 'validaEmailAlumnoServlet',
+	                                    delay: 1000
+	                                }
+	                            }
+							},
+							fechaNacimiento:{
+								selector: '#id_fecha',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'La fecha de nacimiento es requerida'
+	                                },
+	                                remote: {
+	                                    message: 'El alumno debe ser mayor de edad',
+	                                    url: 'validaFechaNacimientoAlumnoServlet',
+	                                    delay: 1000
+	                                }
+	                            }
+							},
+							pais:{
+								selector: '#id_pais',
+	                            validators: {
+	                                notEmpty: {
+	                                    message: 'El país es requerido'
+	                                }
+	                            }
+							}
+	                    }
+	                });
+	    });
+
+	
+	$("#id_btn_registra").click(function() {
+	    var validator = $('#id_form_registra').data('bootstrapValidator');
+	    validator.validate();
+	    
+	    console.log($("#id_form_registra").serialize())
+	    
+	    if (validator.isValid()) {
+	        $.ajax({
+	            type : "POST",
+	            url : "crudAlumno",
+	            data : $("#id_form_registra").serialize(),
+	            success : function(data) {
+	            	mostrarMensaje(data.mensaje);
+	            	validator.resetForm();
+	            	agregarGrilla(data.datos);
+	            	$('#id_div_modal_registra').modal("hide");
+	            },
+	            error : function(data) {
+	            	mostrarMensaje(MSG_ERROR);
+	            }
+	        });
+	    }
+	   
+	});
+
+	
 </script>	
 	
 </body>

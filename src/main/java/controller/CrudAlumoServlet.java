@@ -89,10 +89,12 @@ public class CrudAlumoServlet extends HttpServlet {
 		// invocar al modelo
 		AlumnoModel model = new AlumnoModel();
 		int salida = model.insertaAlumno(objAlumno);
-
+		List<Alumno> lstTodos = model.listaPorNombreLike("%");
+					
 		Respuesta objRespuesta = new Respuesta();
 		if (salida > 0) {
 			objRespuesta.setMensaje("Alumno registrado correctamente");
+			objRespuesta.setDatos(lstTodos);
 		} else {
 			objRespuesta.setMensaje("Error al registrar alumno");
 		}
