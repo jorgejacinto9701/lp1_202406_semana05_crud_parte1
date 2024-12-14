@@ -449,6 +449,33 @@ function agregarGrilla(lista){
 	    }
 	   
 	});
+	
+	
+	$("#id_btn_actualiza").click(function() {
+	    //var validator = $('#id_form_actualiza').data('bootstrapValidator');
+	    //validator.validate();
+	    
+	    console.log($("#id_form_actualiza").serialize())
+	    
+	    //if (validator.isValid()) {
+	        $.ajax({
+	            type : "POST",
+	            url : "crudAlumno",
+	            data : $("#id_form_actualiza").serialize(),
+	            success : function(data) {
+	            	mostrarMensaje(data.mensaje);
+	            	validator.resetForm();
+	            	agregarGrilla(data.datos);
+	            	$('#id_div_modal_actualiza').modal("hide");
+	            },
+	            error : function(data) {
+	            	mostrarMensaje(MSG_ERROR);
+	            }
+	        });
+	    //}
+	   
+	});
+	
 
 	
 </script>	
